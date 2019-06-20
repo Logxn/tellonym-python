@@ -1,5 +1,6 @@
 import requests
 import json
+from tellonym.exceptions import *
 
 class Tellonym:
 
@@ -14,6 +15,8 @@ class Tellonym:
         self.base_url = 'https://api.tellonym.me'
         self.login_url = self.base_url + '/tokens/create'
         self.logout_url = self.base_url + '/tokens/destroy'
+        self.get_tells_url = self.base_url + '/tells'
+        self.send_tells_url = self.base_url + '/tells/create'
         self.delete_tell_url = self.base_url + '/tells/destroy'
         self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
         self.auth = 'Bearer ' + self.get_request_token(username, password)
@@ -52,7 +55,7 @@ class Tellonym:
         Used to logout from Tellonym
 
         Returns:
-            True: Logout succeeded
+            "Success": Logout succeeded
         """
 
         r = requests.post(self.logout_url, headers=self.auth_header)
@@ -60,19 +63,76 @@ class Tellonym:
         if r.status_code == 403:
             raise UnauthorizedError
 
-        return True
+        return 'Success'
+
+    def get_tells(self):
+        """
+        Gets all Tells for the current user
+
+        Returns:
+            tells_array (array): all current tells for the user
+        """
+
+        r = requests.get(self.get_tells_url, headers=self.auth_header)
+        tells = r.json()
+        tells_array = []
+        for index, _ in enumerate(tells['tells']):
+            tells_array.append(tells['tells'][index])
+        return tells_array
+
+    def send_tell(self, id, text, anonymous=True):
+        """
+        Sends a Tell to a specific user
+
+        Args:
+            id (int): the id of the desired user
+            text (str): text to send with the tell
+            anonymous (bool): defines wether the tell is to be sent anonymously or not - defaults to true
+
+        Returns:
+            "Success": Tell sucessfully sent
+        """
+
+        if anonymous == False:
+            body = {
+            'senderStatus': 2,
+            'previousRouteName': 'Result',
+            'tell': text,
+            'userId': id,
+            'limit': 13
+            }
+        else:
+            body = {
+            'previousRouteName': 'Result',
+            'tell': text,
+            'userId': id,
+            'limit': 13
+            }
+
+        r = requests.post(self.send_tells_url, json=body, headers=self.auth_header)
+        response = r.json()
+
+        if response == 'ok':
+            return 'Success'
+        elif response['err']['code'] == 'NOT_FOUND':
+            raise UserNotFoundError
+        else:
+            raise UnknownError
 
     def delete_tell(self, id):
         """
-        Used to delete a Tell that has been received
+        Deletes a specific Tell for the current user
 
         Args:
             id (int): the id of the tell to delete
+
+        Returns:
+            "Success": Tell deleted
         """
 
         body = {
-        "tellId": id,
-        "limit": 13
+        'tellId': id,
+        'limit': 13
         }
 
         r = requests.post(self.delete_tell_url, json=body, headers=self.auth_header)
@@ -82,3 +142,5 @@ class Tellonym:
         # or Unauthorized (403) if the token is not valid
         if r.status_code == 403:
             raise UnauthorizedError
+
+        return 'Success'

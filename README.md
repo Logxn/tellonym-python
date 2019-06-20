@@ -14,6 +14,8 @@ tell = tell.Tellonym(username, password)
 
 ### Tells
 ```python
+>>> tell.get_tells() # will return an array with your tells and all its information
+>>> tell.send_tell(user_id, text, anonymous=True)
 >>> tell.delete_tell(tell_id)
 ```
 

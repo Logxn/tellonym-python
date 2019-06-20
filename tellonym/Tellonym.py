@@ -46,7 +46,11 @@ class Tellonym:
 
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
 
-        req_token = r.json()['accessToken']
+        response = r.json()
+        if response['err']['code'] == 'WRONG_CREDENTIALS':
+            raise WrongCredentialsError
+            
+        req_token = response['accessToken']
         self.req_token = req_token
         return req_token
 

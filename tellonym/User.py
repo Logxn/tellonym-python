@@ -5,7 +5,8 @@ from tellonym.Link import Link
 
 class User:
 
-    def __init__(self, input):
+    def __init__(self, client, input):
+        self.client = client
         self.id = input['id']
         self.email = input['email']
         self.display_name = input['displayName']
@@ -70,6 +71,7 @@ class User:
         self.answers = self.get_answers(input['answers'])
         self.config = Config(input['config'])
 
+
     def is_default_phonenumber(self):
         """
         Checks wether or not the phonenumber is default
@@ -123,7 +125,7 @@ class User:
         """
         answers = []
         for index, _ in enumerate(input):
-            answer = Answer(input[index])
+            answer = Answer(self.client, input[index])
             answers.append(answer)
 
         return answers

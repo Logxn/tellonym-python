@@ -1,8 +1,9 @@
 import json
+import requests
 
 class Answer:
 
-    def __init__(self, input):
+    def __init__(self, client, input):
         self.id = input['id']
         self.answer = input['answer']
         self.likes_count= input['likesCount']
@@ -13,6 +14,7 @@ class Answer:
         self.recipient_id = input['userId']
         self.is_current_user_tell_sender = input['isCurrentUserTellSender']
         self.likes = input['likes'] # to-do: put this in a seperate class (?)
+        self.client = client
 
     def is_anonymous_tell(self):
         """
@@ -28,3 +30,24 @@ class Answer:
         if self.sender_status == 0:
             return True
         return False
+
+    def like_answer(self):
+        """
+        Likes the answer the user profile
+
+        Returns:
+            True (bool): Answers has been liked
+            UnknownError (exception): UnknownError has occurred
+        """
+        body = {
+        "answerId": self.id,
+        "userId": self.recipient_id,
+        "limit": 13
+        }
+
+        r = requests.post(self.client.create_like_url, json=body, headers=self.client.auth_header)
+
+        if r.status_code == 200:
+            return True
+
+        raise UnknownError

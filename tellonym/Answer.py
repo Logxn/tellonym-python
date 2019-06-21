@@ -12,7 +12,7 @@ class Answer:
         self.sender = input['sender']
         self.recipient_id = input['userId']
         self.is_current_user_tell_sender = input['isCurrentUserTellSender']
-        self.likes = input['likes'] # to-do: put this in a seperate class (?) 
+        self.likes = input['likes'] # to-do: put this in a seperate class (?)
 
     def is_anonymous_tell(self):
         """

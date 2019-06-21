@@ -140,6 +140,8 @@ class Tellonym:
             return 'Success'
         elif response['err']['code'] == 'NOT_FOUND':
             raise UserNotFoundError
+        elif response['err']['code'] == "PARAMETER_INVALID":
+            raise InvalidParameterError
         else:
             raise UnknownError
 

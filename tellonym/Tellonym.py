@@ -1,6 +1,7 @@
 import requests
 import json
 from tellonym.exceptions import *
+from tellonym.User import User
 
 class Tellonym:
 
@@ -15,6 +16,7 @@ class Tellonym:
         self.base_url = 'https://api.tellonym.me'
         self.login_url = self.base_url + '/tokens/create'
         self.logout_url = self.base_url + '/tokens/destroy'
+        self.get_user_url = self.base_url + '/accounts/myself'
         self.get_tells_url = self.base_url + '/tells'
         self.send_tells_url = self.base_url + '/tells/create'
         self.delete_tell_url = self.base_url + '/tells/destroy'
@@ -47,9 +49,11 @@ class Tellonym:
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
 
         response = r.json()
-        if response['err']['code'] == 'WRONG_CREDENTIALS':
-            raise WrongCredentialsError
-            
+
+        if 'err' in response:
+            if response['err']['code']:
+                raise WrongCredentialsError
+
         req_token = response['accessToken']
         self.req_token = req_token
         return req_token
@@ -68,6 +72,16 @@ class Tellonym:
             raise UnauthorizedError
 
         return 'Success'
+
+    def get_user(self):
+        """
+        Fetches the own profile
+        """
+
+        r = requests.get(self.get_user_url, headers=self.auth_header)
+        user = User(r.json())
+
+        return user
 
     def get_tells(self):
         """

@@ -31,9 +31,9 @@ class Answer:
             return True
         return False
 
-    def like_answer(self):
+    def like(self):
         """
-        Likes the answer the user profile
+        Likes the answer on the user's profile
 
         Returns:
             True (bool): Answers has been liked
@@ -49,5 +49,21 @@ class Answer:
 
         if r.status_code == 200:
             return True
+        raise UnknownError
 
+    def delete(self):
+        """
+        Deletes the answer on the user's profile
+        """
+
+        body = {
+        'answerId': self.id,
+        'userId': self.recipient_id,
+        'limit': 13
+        }
+
+        r = requests.post(self.client.delete_answer_url, json=body, headers=self.client.auth_header)
+
+        if r.status_code == 200:
+            return True
         raise UnknownError

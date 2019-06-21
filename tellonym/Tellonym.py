@@ -21,6 +21,7 @@ class Tellonym:
         self.send_tells_url = self.base_url + '/tells/create'
         self.delete_tell_url = self.base_url + '/tells/destroy'
         self.create_like_url = self.base_url + '/likes/create'
+        self.delete_answer_url = self.base_url + '/answers/destroy'
         self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
         self.auth = 'Bearer ' + self.get_request_token(username, password)
         self.auth_header = {'Authorization': self.auth, 'user-agent':'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}

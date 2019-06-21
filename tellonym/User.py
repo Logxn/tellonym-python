@@ -1,6 +1,7 @@
 import json
 from tellonym.Config import Config
 from tellonym.Answer import Answer
+from tellonym.Link import Link
 
 class User:
 
@@ -47,7 +48,7 @@ class User:
         self.phone_number = self.phone_prefix + self.phone_suffix
         self.is_tells_only_from_registered = input['isTellsOnlyFromRegistered']
         self.is_allowed_to_moderate = input['isAllowedToModerate']
-        self.link_data = input['linkData'] # enumerate this and put it in an extra class
+        self.link_data = self.get_link_data(input['linkData'])
         self.has_allowed_emails = input['hasAllowedEmails']
         self.hasAllowedSearchByPhone = input['hasAllowedSearchByPhone']
         self.hasAllowedShowActivity = input['hasAllowedShowActivity']
@@ -91,12 +92,31 @@ class User:
         """
         return self.config
 
+    def get_link_data(self, input):
+        """
+        Gets the linked accounts from the current user
+
+        Args:
+            input (json str): link data input
+
+        Returns:
+            Link (class): linked data information
+        """
+
+        link_data = []
+        for index, _ in enumerate(input):
+            link = Link(input[index])
+            link_data.append(link)
+
+        return link_data
+
+
     def get_answers(self, input):
         """
         Gets all answers on the current user's profile
 
         Args:
-            input (str): json array of answers
+            input (json str): array of answers
 
         Returns:
             answers (arr): array of answer classes

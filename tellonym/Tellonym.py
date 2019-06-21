@@ -29,6 +29,7 @@ class Tellonym:
         Used to login to Tellonym
 
         Args:
+            username (str): your username for Tellonym
             password (str): your password for Tellonym
 
         Returns:

@@ -51,7 +51,7 @@ class Tellonym:
         response = r.json()
 
         if 'err' in response:
-            if response['err']['code']:
+            if response['err']['code'] == 'WRONG_CREDENTIALS':
                 raise WrongCredentialsError
 
         req_token = response['accessToken']
@@ -76,11 +76,17 @@ class Tellonym:
     def get_user(self):
         """
         Fetches the own profile
+
+        Returns:
+            User (class): Returns user object with all the current user's information
         """
 
         r = requests.get(self.get_user_url, headers=self.auth_header)
-        user = User(r.json())
 
+        if r.status_code != 200:
+            raise UnknownError
+
+        user = User(r.json())
         return user
 
     def get_tells(self):

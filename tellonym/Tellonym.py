@@ -2,6 +2,7 @@ import requests
 import json
 from tellonym.exceptions import *
 from tellonym.User import User
+from tellonym.Tell import Tell
 
 class Tellonym:
 
@@ -21,12 +22,13 @@ class Tellonym:
         self.send_tells_url = self.base_url + '/tells/create'
         self.delete_tell_url = self.base_url + '/tells/destroy'
         self.create_like_url = self.base_url + '/likes/create'
+        self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
         self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
-        self.auth = 'Bearer ' + self.get_request_token(username, password)
+        self.auth = 'Bearer ' + self.__get_request_token(username, password)
         self.auth_header = {'Authorization': self.auth, 'user-agent':'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
 
-    def get_request_token(self, username, password):
+    def __get_request_token(self, username, password):
         """
         Used to login to Tellonym
 
@@ -104,7 +106,8 @@ class Tellonym:
         tells = r.json()
         tells_array = []
         for index, _ in enumerate(tells['tells']):
-            tells_array.append(tells['tells'][index])
+            tell = Tell(self, tells['tells'][index])
+            tells_array.append(tell)
         return tells_array
 
     def send_tell(self, id, text, anonymous=True):

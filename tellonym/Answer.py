@@ -4,6 +4,7 @@ import requests
 class Answer:
 
     def __init__(self, client, input):
+        self.client = client
         self.id = input['id']
         self.answer = input['answer']
         self.likes_count= input['likesCount']
@@ -14,7 +15,6 @@ class Answer:
         self.recipient_id = input['userId']
         self.is_current_user_tell_sender = input['isCurrentUserTellSender']
         self.likes = input['likes'] # to-do: put this in a seperate class (?)
-        self.client = client
 
     def is_anonymous_tell(self):
         """

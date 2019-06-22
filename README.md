@@ -7,29 +7,29 @@ A unofficial python module to easily interact with [Tellonym](https://tellonym.m
 
 ## Usage
 ```python
-from tellonym import Tellonym as tell
+from tellonym import Tellonym as client
 
-tell = tell.Tellonym(username, password)
-user = tell.get_user()
+client = client.Tellonym(username, password)
+user = client.get_user()
 ```
 
 ### Client
 ```python
->>> tell.get_tells() # will return an array with your tells and all its information
->>> tell.send_tell(user_id, text, anonymous=True)
->>> tell.delete_tell(tell_id)
->>> tell.get_user() # will return a user object
->>> tell.logout()
+>>> client.get_tells() # will return an array with tell objects
+>>> client.send_tell(user_id, text, anonymous=True)
+>>> client.delete_tell(tell_id)
+>>> client.get_user() # will return a user object
+>>> client.logout()
 ```
 
 ### User
 ```python
 >>> user.is_default_phonenumber()
->>> user.get_config() # will return a config object
->>> user.get_answers() # will return an array with answer objects
 ```
 
 ### Answer
-```python 
+```python
 >>> answer.is_anonymous_tell()
+>>> answer.like()
+>>> answer.delete()
 ```

@@ -49,7 +49,7 @@ class User:
         self.phone_number = self.phone_prefix + self.phone_suffix
         self.is_tells_only_from_registered = input['isTellsOnlyFromRegistered']
         self.is_allowed_to_moderate = input['isAllowedToModerate']
-        self.link_data = self.get_link_data(input['linkData'])
+        self.link_data = self.__get_link_data(input['linkData'])
         self.has_allowed_emails = input['hasAllowedEmails']
         self.hasAllowedSearchByPhone = input['hasAllowedSearchByPhone']
         self.hasAllowedShowActivity = input['hasAllowedShowActivity']
@@ -68,33 +68,10 @@ class User:
         self.has_allowed_search_by_location = input['hasAllowedSearchByLocation']
         self.city = input['city']
         self.country = input['country']
-        self.answers = self.get_answers(input['answers'])
+        self.answers = self.__get_answers(input['answers'])
         self.config = Config(input['config'])
 
-
-    def is_default_phonenumber(self):
-        """
-        Checks wether or not the phonenumber is default
-
-        Returns:
-            True: If phonenumber is default
-            False: If phonenumber is not default
-        """
-
-        if self.phone_suffix == 12345678:
-            return True
-        return False
-
-    def get_config(self):
-        """
-        Gets the configuration of the current user
-
-        Returns:
-            Config (class): Current user configuration
-        """
-        return self.config
-
-    def get_link_data(self, input):
+    def __get_link_data(self, input):
         """
         Gets the linked accounts from the current user
 
@@ -112,8 +89,7 @@ class User:
 
         return link_data
 
-
-    def get_answers(self, input):
+    def __get_answers(self, input):
         """
         Gets all answers on the current user's profile
 
@@ -129,3 +105,16 @@ class User:
             answers.append(answer)
 
         return answers
+
+    def is_default_phonenumber(self):
+        """
+        Checks wether or not the phonenumber is default
+
+        Returns:
+            True: If phonenumber is default
+            False: If phonenumber is not default
+        """
+
+        if self.phone_suffix == 12345678:
+            return True
+        return False

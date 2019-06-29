@@ -10,7 +10,7 @@ A unofficial python module to easily interact with [Tellonym](https://tellonym.m
 from tellonym import Tellonym as client
 
 client = client.Tellonym(username, password)
-user = client.get_user()
+profile = client.get_profile()
 ```
 
 ### Client
@@ -22,9 +22,9 @@ user = client.get_user()
 >>> client.logout()
 ```
 
-### User
+### Profile
 ```python
->>> user.is_default_phonenumber()
+>>> profile.is_default_phonenumber()
 ```
 
 ### Answer

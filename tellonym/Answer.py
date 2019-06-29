@@ -4,7 +4,7 @@ import requests
 class Answer:
 
     def __init__(self, client, input):
-        self.client = client
+        self.__client = client
         self.id = input['id']
         self.answer = input['answer']
         self.likes_count= input['likesCount']
@@ -45,7 +45,7 @@ class Answer:
         "limit": 13
         }
 
-        r = requests.post(self.client.create_like_url, json=body, headers=self.client.auth_header)
+        r = requests.post(self.__client.create_like_url, json=body, headers=self.__client.auth_header)
 
         if r.status_code == 200:
             return True
@@ -62,7 +62,7 @@ class Answer:
         'limit': 13
         }
 
-        r = requests.post(self.client.delete_answer_url, json=body, headers=self.client.auth_header)
+        r = requests.post(self.__client.delete_answer_url, json=body, headers=self.__client.auth_header)
 
         if r.status_code == 200:
             return True

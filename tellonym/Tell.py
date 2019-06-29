@@ -14,6 +14,12 @@ class Tell:
         self.is_inappropriate = input['isInappropriate']
         self.sender = input['sender']
 
+    def is_anonymous_tell(self):
+
+        if self.sender_status == 2:
+            return False
+        return True
+        
     def answer(self, input):
         """
         Answers to the recieved tell

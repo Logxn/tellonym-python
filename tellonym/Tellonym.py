@@ -1,7 +1,7 @@
 import requests
 import json
 from tellonym.exceptions import *
-from tellonym.User import User
+from tellonym.Profile import Profile
 from tellonym.Tell import Tell
 
 class Tellonym:
@@ -24,6 +24,7 @@ class Tellonym:
         self.create_like_url = self.base_url + '/likes/create'
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
+        self.search_user_url = self.base_url + '/search/users'
         self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
         self.auth = 'Bearer ' + self.__get_request_token(username, password)
         self.auth_header = {'Authorization': self.auth, 'user-agent':'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
@@ -78,12 +79,12 @@ class Tellonym:
 
         return 'Success'
 
-    def get_user(self):
+    def get_profile(self):
         """
         Fetches the own profile
 
         Returns:
-            User (class): Returns user object with all the current user's information
+            Profile (class): Returns profile object with all the current user's information
         """
 
         r = requests.get(self.get_user_url, headers=self.auth_header)
@@ -91,8 +92,29 @@ class Tellonym:
         if r.status_code != 200:
             raise UnknownError
 
-        user = User(self, r.json())
-        return user
+        profile = Profile(self, r.json())
+        return profile
+
+    def __get_user(self, username, exact_match=False):
+        """
+        Tries to fetch a user by its given name
+
+        Args:
+            username (str): the username to search for
+            exact_match (bool): only return a user if the given name matches one of the results (defaults to false)
+        """
+
+        payload = {'searchString': username, 'term': username, 'limit': '13'}
+        r = requests.get(self.search_user_url, params=payload, headers=self.auth_header)
+
+        users = r.json()
+        if exact_match == True:
+            for index, _ in enumerate(users['results']):
+                if users['results'][index]['username']   == username:
+                    # to-do: Implement User Class
+                    return True
+
+        return False
 
     def get_tells(self):
         """

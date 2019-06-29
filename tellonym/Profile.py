@@ -3,10 +3,10 @@ from tellonym.Config import Config
 from tellonym.Answer import Answer
 from tellonym.Link import Link
 
-class User:
+class Profile:
 
     def __init__(self, client, input):
-        self.client = client
+        self.__client = client
         self.id = input['id']
         self.email = input['email']
         self.display_name = input['displayName']
@@ -101,7 +101,7 @@ class User:
         """
         answers = []
         for index, _ in enumerate(input):
-            answer = Answer(self.client, input[index])
+            answer = Answer(self.__client, input[index])
             answers.append(answer)
 
         return answers

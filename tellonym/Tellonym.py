@@ -3,6 +3,7 @@ import json
 from tellonym.exceptions import *
 from tellonym.Profile import Profile
 from tellonym.Tell import Tell
+from tellonym.User import User
 
 class Tellonym:
 
@@ -95,26 +96,31 @@ class Tellonym:
         profile = Profile(self, r.json())
         return profile
 
-    def __get_user(self, username, exact_match=False):
+    def get_user(self, username, exact_match=False, case_sensitive=False):
         """
         Tries to fetch a user by its given name
 
         Args:
             username (str): the username to search for
             exact_match (bool): only return a user if the given name matches one of the results (defaults to false)
+            case_sensitive (bool): only search for the name in case sensitive (defaults to false)
         """
 
         payload = {'searchString': username, 'term': username, 'limit': '13'}
         r = requests.get(self.search_user_url, params=payload, headers=self.auth_header)
 
-        users = r.json()
-        if exact_match == True:
-            for index, _ in enumerate(users['results']):
-                if users['results'][index]['username']   == username:
-                    # to-do: Implement User Class
-                    return True
+        results = r.json()['results']
 
-        return False
+        if exact_match == True:
+            for index, _ in enumerate(results):
+                if case_sensitive:
+                    if username in results[index]['username']:
+                        return User(results[index])
+                else:
+                    if username in results[index]['username'] or username in results[index]['username'].lower():
+                        return User(results[index])
+
+        return "USER_NOT_FOUND"
 
     def get_tells(self):
         """

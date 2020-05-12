@@ -1,9 +1,9 @@
 import requests
-import json
 from tellonym.exceptions import *
 from tellonym.Profile import Profile
 from tellonym.Tell import Tell
 from tellonym.User import User
+
 
 class Tellonym:
 
@@ -26,9 +26,11 @@ class Tellonym:
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
         self.search_user_url = self.base_url + '/search/users'
-        self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
+        self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0',
+                                'tellonym-client': 'ios:2.14.1'}
         self.auth = 'Bearer ' + self.__get_request_token(username, password)
-        self.auth_header = {'Authorization': self.auth, 'user-agent':'Tellonym/180 CFNetwork/976 Darwin/18.2.0', 'tellonym-client':'ios:2.14.1'}
+        self.auth_header = {'Authorization': self.auth, 'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0',
+                            'tellonym-client': 'ios:2.14.1'}
 
     def __get_request_token(self, username, password):
         """
@@ -43,14 +45,14 @@ class Tellonym:
         """
 
         body = {
-        'country': 'DE',
-        'deviceName': 'tellonym-for-python',
-        'deviceType': 'ios',
-        'lang': 'de',
-        'email': username,
-        'password': password,
-        'idfa': '',
-        'limit': 13
+            'country': 'DE',
+            'deviceName': 'tellonym-for-python',
+            'deviceType': 'ios',
+            'lang': 'de',
+            'email': username,
+            'password': password,
+            'idfa': '',
+            'limit': 13
         }
 
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
@@ -111,7 +113,7 @@ class Tellonym:
 
         results = r.json()['results']
 
-        if exact_match == True:
+        if exact_match:
             for index, _ in enumerate(results):
                 if case_sensitive:
                     if username in results[index]['username']:
@@ -151,20 +153,20 @@ class Tellonym:
             "Success": Tell sucessfully sent
         """
 
-        if anonymous == False:
+        if not anonymous:
             body = {
-            'senderStatus': 2,
-            'previousRouteName': 'Result',
-            'tell': text,
-            'userId': id,
-            'limit': 13
+                'senderStatus': 2,
+                'previousRouteName': 'Result',
+                'tell': text,
+                'userId': id,
+                'limit': 13
             }
         else:
             body = {
-            'previousRouteName': 'Result',
-            'tell': text,
-            'userId': id,
-            'limit': 13
+                'previousRouteName': 'Result',
+                'tell': text,
+                'userId': id,
+                'limit': 13
             }
 
         r = requests.post(self.send_tells_url, json=body, headers=self.auth_header)
@@ -191,8 +193,8 @@ class Tellonym:
         """
 
         body = {
-        'tellId': id,
-        'limit': 13
+            'tellId': id,
+            'limit': 13
         }
 
         r = requests.post(self.delete_tell_url, json=body, headers=self.auth_header)
@@ -204,3 +206,37 @@ class Tellonym:
             raise UnauthorizedError
 
         return 'Success'
+
+    def answer_tell(self, id, answer):
+
+        """
+            Answers a specific Tell for the current user
+
+            Args:
+                id (int): the id of the tell to answer
+                answer (str): text to send as the answer
+
+            Returns:
+                "Success": Tell answered
+        """
+        body = {
+            'answer': answer,
+            'tellId': id,
+            'limit': 13
+        }
+
+        r = requests.post(self.create_answer_url, json=body, headers=self.auth_header)
+
+        response = r.json()
+        print(response)
+
+        if r.status_code == 200:
+            return 'Success'
+        elif response['err']['code'] == 'NOT_FOUND':
+            raise TellNotFoundError
+        elif response['err']['code'] == "PARAMETER_INVALID":
+            raise InvalidParameterError
+        elif response['err']['code'] == 'TOKEN_INVALID':
+            raise UnauthorizedError
+        else:
+            raise UnknownError

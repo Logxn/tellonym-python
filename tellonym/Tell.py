@@ -1,4 +1,4 @@
-import json
+
 
 class Tell:
 
@@ -27,8 +27,10 @@ class Tell:
         Args:
             input (str): answer string
         """
+        print(self.client.answer_tell(self.id, input))
 
     def delete(self):
         """
         Deletes the received tell
         """
+        print(self.client.delete_tell(self.id))

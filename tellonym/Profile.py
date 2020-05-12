@@ -1,7 +1,7 @@
-import json
 from tellonym.Config import Config
 from tellonym.Answer import Answer
 from tellonym.Link import Link
+
 
 class Profile:
 
@@ -42,7 +42,8 @@ class Profile:
         self.is_push_notifications_tell_enabled = input['isPushNotificationsTellEnabled']
         self.is_push_notifications_answer_enabled = input['isPushNotificationsAnswerEnabled']
         self.is_push_notifications_liked_enabled = input['isPushNotificationsLikedEnabled']
-        self.is_push_notifications_anonymous_subscription_enabled = input['isPushNotificationsAnonymousSubscriptionEnabled']
+        self.is_push_notifications_anonymous_subscription_enabled = \
+            input['isPushNotificationsAnonymousSubscriptionEnabled']
         self.is_push_notifications_public_subscription_enabled = input['isPushNotificationsPublicSubscriptionEnabled']
         self.phone_prefix = input['phonePrefix']
         self.phone_suffix = input['phoneNumber']

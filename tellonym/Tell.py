@@ -1,3 +1,4 @@
+from tellonym.Answer import Answer
 
 
 class Tell:
@@ -26,8 +27,14 @@ class Tell:
 
         Args:
             input (str): answer string
+
+        returns:
+            Answer class
         """
-        print(self.client.answer_tell(self.id, input))
+        data = self.client.answer_tell(self.id, input)
+        answer = Answer(self.client, data['answer'])
+
+        return answer
 
     def delete(self):
         """

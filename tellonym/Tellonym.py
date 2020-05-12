@@ -228,10 +228,9 @@ class Tellonym:
         r = requests.post(self.create_answer_url, json=body, headers=self.auth_header)
 
         response = r.json()
-        print(response)
 
         if r.status_code == 200:
-            return 'Success'
+            return response
         elif response['err']['code'] == 'NOT_FOUND':
             raise TellNotFoundError
         elif response['err']['code'] == "PARAMETER_INVALID":

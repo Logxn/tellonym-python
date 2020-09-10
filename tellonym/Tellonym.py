@@ -130,8 +130,8 @@ class Tellonym:
         Returns:
             tells_array (array): all current tells for the user
         """
-
-        r = requests.get(self.get_tells_url, headers=self.auth_header)
+        payload = {'limit': limit}
+        r = requests.get(self.get_tells_url, params=payload, headers=self.auth_header)
         tells = r.json()
         tells_array = []
         for index, _ in enumerate(tells['tells']):
@@ -163,7 +163,7 @@ class Tellonym:
             }
         else:
             body = {
-                'previousContentCount': 0
+                'previousContentCount': 0,
                 'previousRouteName': 'Profile',
                 'tell': text,
                 'userId': id,

@@ -26,8 +26,7 @@ class Tellonym:
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
         self.search_user_url = self.base_url + '/search/users'
-        self.non_auth_header = {'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0',
-                                'tellonym-client': 'ios:2.14.1'}
+        self.non_auth_header = {'tellonym-client': 'ios:2.49.2:377:13:iPhone10,6'}
         self.auth = 'Bearer ' + self.__get_request_token(username, password)
         self.auth_header = {'Authorization': self.auth, 'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0',
                             'tellonym-client': 'ios:2.14.1'}
@@ -52,7 +51,7 @@ class Tellonym:
             'email': username,
             'password': password,
             'idfa': '',
-            'limit': 13
+            'limit': 16
         }
 
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
@@ -124,7 +123,7 @@ class Tellonym:
 
         return "USER_NOT_FOUND"
 
-    def get_tells(self):
+    def get_tells(self, limit):
         """
         Gets all Tells for the current user
 
@@ -156,17 +155,20 @@ class Tellonym:
         if not anonymous:
             body = {
                 'senderStatus': 2,
-                'previousRouteName': 'Result',
+                'previousRouteName': 'Profile',
                 'tell': text,
                 'userId': id,
-                'limit': 13
+                'limit': 16,
+                'contentType': "CUSTOM"
             }
         else:
             body = {
-                'previousRouteName': 'Result',
+                'previousContentCount': 0
+                'previousRouteName': 'Profile',
                 'tell': text,
                 'userId': id,
-                'limit': 13
+                'limit': 16,
+                'contentType': "CUSTOM"
             }
 
         r = requests.post(self.send_tells_url, json=body, headers=self.auth_header)
@@ -194,7 +196,7 @@ class Tellonym:
 
         body = {
             'tellId': id,
-            'limit': 13
+            'limit': 16
         }
 
         r = requests.post(self.delete_tell_url, json=body, headers=self.auth_header)

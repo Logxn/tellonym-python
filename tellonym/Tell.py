@@ -15,6 +15,11 @@ class Tell:
         self.is_inappropriate = input['isInappropriate']
         self.sender = input['sender']
 
+        # New
+        self.type = input['type']
+        self.sort_id = input['sortId']
+        self.is_from_community = input['isFromCommunity']
+
     def is_anonymous_tell(self):
 
         if self.sender_status == 2:

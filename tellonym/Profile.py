@@ -72,6 +72,25 @@ class Profile:
         self.answers = self.__get_answers(input['answers'])
         self.config = Config(input['config'])
 
+        ## New
+        self.status_emoji = input['statusEmoji']
+        self.occupation = input['occupation']
+        self.pinned_posts = input['pinnedPosts']
+        self.is_verification_recommended = input['isVerificationRecommended']
+        self.premium_until = input['premiumUntil']
+        self.is_apple_connected = input['isAppleConnected']
+        self.is_premium = input['isPremium']
+        self.info = input['info'] # to-do: make this a class
+        self.ad_exp_id = input['adExpId']
+        self.is_secure_account_recommended = input['isSecureAccountRecommended']
+        self.available_badges = input['availableBadges'] # to-do: make this a class
+        self.tgt  = input['tgt'] # what is this?
+        self.phone = input['phone'] # to-do: make this a class
+        self.tint_color = input['tintColor']
+        self.badge = input['badge']
+        self.is_google_connected = input['isGoogleConnected']
+
+
     def __get_link_data(self, input):
         """
         Gets the linked accounts from the current user

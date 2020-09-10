@@ -11,6 +11,13 @@ class User:
         self.is_verified = input['isVerified']
         self.is_active = input['isActive']
 
+        # New
+        self.status_emoji = input['statusEmoji']
+        self.is_blocked_by = input['isBlockedBy']
+        self.is_following = input['isFollowing']
+        self.is_blocked = input['isBlocked']
+        self.type = input['type']
+
     def get_profile_picture(self):
         return 'userimg.tellonym.me/xs/' + self.avatar_file_name
 

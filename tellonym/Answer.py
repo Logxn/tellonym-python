@@ -1,5 +1,6 @@
-import json
 import requests
+from tellonym.exceptions import *
+
 
 class Answer:
 
@@ -7,14 +8,14 @@ class Answer:
         self.__client = client
         self.id = input['id']
         self.answer = input['answer']
-        self.likes_count= input['likesCount']
+        self.likes_count = input['likesCount']
         self.created_at = input['createdAt']
         self.tell = input['tell']
         self.sender_status = input['senderStatus']
         self.sender = input['sender']
-        self.recipient_id = input['userId']
+        self.recipient_id = input['user']['id']
         self.is_current_user_tell_sender = input['isCurrentUserTellSender']
-        self.likes = input['likes'] # to-do: put this in a seperate class (?)
+        self.likes = input['likes']  # to-do: put this in a seperate class (?)
 
     def is_anonymous_tell(self):
         """
@@ -40,9 +41,9 @@ class Answer:
             UnknownError (exception): UnknownError has occurred
         """
         body = {
-        "answerId": self.id,
-        "userId": self.recipient_id,
-        "limit": 13
+            "answerId": self.id,
+            "userId": self.recipient_id,
+            "limit": 13
         }
 
         r = requests.post(self.__client.create_like_url, json=body, headers=self.__client.auth_header)
@@ -57,9 +58,9 @@ class Answer:
         """
 
         body = {
-        'answerId': self.id,
-        'userId': self.recipient_id,
-        'limit': 13
+            'answerId': self.id,
+            'userId': self.recipient_id,
+            'limit': 13
         }
 
         r = requests.post(self.__client.delete_answer_url, json=body, headers=self.__client.auth_header)

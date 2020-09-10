@@ -1,2 +1,2 @@
 __author__ = "Logan Thompson | github.com/Logxn"
-__version__ = "1.2.0"
+__version__ = "1.2.1"

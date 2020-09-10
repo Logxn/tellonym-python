@@ -21,7 +21,7 @@ class Tellonym:
         self.get_user_url = self.base_url + '/accounts/myself'
         self.get_tells_url = self.base_url + '/tells'
         self.send_tells_url = self.base_url + '/tells/create'
-        self.delete_tell_url = self.base_url + '/tells/destroy'
+        self.delete_tell_url = self.base_url + '/posts/'
         self.create_like_url = self.base_url + '/likes/create'
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
@@ -199,11 +199,10 @@ class Tellonym:
             'limit': 16
         }
 
-        r = requests.post(self.delete_tell_url, json=body, headers=self.auth_header)
+        # r = requests.post(self.delete_tell_url, json=body, headers=self.auth_header)
+        
+        r = requests.delete(self.delete_tell_url, params=id, headers = self.auth_header)
 
-        # I tested everything from sending a string to a random number
-        # there doesn't seem to be anything else but a OK (200) status code
-        # or Unauthorized (403) if the token is not valid
         if r.status_code == 403:
             raise UnauthorizedError
 

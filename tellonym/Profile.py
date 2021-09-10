@@ -1,6 +1,8 @@
 from tellonym.Config import Config
 from tellonym.Answer import Answer
 from tellonym.Link import Link
+from tellonym.Phone import Phone
+from tellonym.Info import Info
 
 
 class Profile:
@@ -13,6 +15,7 @@ class Profile:
         self.username = input['username']
         self.type = input['type']
         self.language = input['lang']
+        self.main_language = input['mainLang']
         self.location = input['location']
         self.page_id = input['pageId']
         self.twitter_username = input['twitterUsername']
@@ -35,6 +38,8 @@ class Profile:
         self.following_count = input['followingCount']
         self.tell_count = input['tellCount']
         self.answer_count = input['answerCount']
+        self.occupation = input['occupation']
+        self.phone = Phone(input['phone'])
         self.is_verified = input['isVerified']
         self.push_notification_token = input['pushNotificationToken']
         self.is_push_notifications_enabled = input['isPushNotificationsEnabled']
@@ -45,8 +50,11 @@ class Profile:
         self.is_push_notifications_anonymous_subscription_enabled = \
             input['isPushNotificationsAnonymousSubscriptionEnabled']
         self.is_push_notifications_public_subscription_enabled = input['isPushNotificationsPublicSubscriptionEnabled']
-        self.phone_prefix = input['phonePrefix']
-        self.phone_suffix = input['phoneNumber']
+        self.is_push_notifications_friend_created_post_enabled = input['isPushNotificationsFriendCreatedPostEnabled']
+        self.is_push_notifications_user_tagged_enabled = input['isPushNotificationsUserTaggedEnabled']
+        self.is_push_notifications_messages_enabled = input['isPushNotificationsMessagesEnabled']
+        self.phone_prefix = input['phonePrefix'] # Region code without + (e.g 49)
+        self.phone_suffix = input['phoneNumber'] # Default number -> 123456
         self.phone_number = self.phone_prefix + self.phone_suffix
         self.is_tells_only_from_registered = input['isTellsOnlyFromRegistered']
         self.is_allowed_to_moderate = input['isAllowedToModerate']
@@ -67,8 +75,8 @@ class Profile:
         self.has_allowed_featuring = input['hasAllowedFeaturing']
         self.has_allowed_show_age = input['hasAllowedShowAge']
         self.has_allowed_search_by_location = input['hasAllowedSearchByLocation']
-        self.city = input['city']
-        self.country = input['country']
+        # self.city = input['city']
+        # self.country = input['country']
         self.answers = self.__get_answers(input['answers'])
         self.config = Config(input['config'])
 
@@ -80,12 +88,11 @@ class Profile:
         self.premium_until = input['premiumUntil']
         self.is_apple_connected = input['isAppleConnected']
         self.is_premium = input['isPremium']
-        self.info = input['info'] # to-do: make this a class
+        self.info = Info(input['info'])
         self.ad_exp_id = input['adExpId']
         self.is_secure_account_recommended = input['isSecureAccountRecommended']
-        self.available_badges = input['availableBadges'] # to-do: make this a class
-        self.tgt  = input['tgt'] # what is this?
-        self.phone = input['phone'] # to-do: make this a class
+        self.available_badges = input['availableBadges']
+        self.tgt  = input['tgt'] # what is this? Update: 09/10/21 Still no idea
         self.tint_color = input['tintColor']
         self.badge = input['badge']
         self.is_google_connected = input['isGoogleConnected']

@@ -26,10 +26,10 @@ class Tellonym:
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
         self.search_user_url = self.base_url + '/search/users'
-        self.non_auth_header = {'tellonym-client': 'ios:2.49.2:377:13:iPhone10,6'}
+        self.non_auth_header = {'tellonym-client': 'ios:2.81.1:737:14:iPhone10,6'}
         self.auth = 'Bearer ' + self.__get_request_token(username, password)
-        self.auth_header = {'Authorization': self.auth, 'user-agent': 'Tellonym/180 CFNetwork/976 Darwin/18.2.0',
-                            'tellonym-client': 'ios:2.14.1'}
+        self.auth_header = {'Authorization': self.auth, 'user-agent': 'Tellonym/737 CFNetwork/1240.0.4 Darwin/20.6.0',
+                            'tellonym-client': 'ios:2.81.1:737:14:iPhone10,6'}
 
     def __get_request_token(self, username, password):
         """
@@ -45,12 +45,14 @@ class Tellonym:
 
         body = {
             'country': 'DE',
+            'deviceLanguage': 1,
             'deviceName': 'tellonym-for-python',
             'deviceType': 'ios',
+            'deviceUid': '4CC1876F-F43F-4902-8C08-9F8194FFFO293',
             'lang': 'de',
+            'activeExperimentId': 15,
             'email': username,
             'password': password,
-            'idfa': '',
             'limit': 16
         }
 

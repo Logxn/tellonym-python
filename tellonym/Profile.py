@@ -15,7 +15,7 @@ class Profile:
         self.username = input['username']
         self.type = input['type']
         self.language = input['lang']
-        self.main_language = input['mainLang']
+        self.main_language = input['mainLanguage']
         self.location = input['location']
         self.page_id = input['pageId']
         self.twitter_username = input['twitterUsername']
@@ -52,7 +52,7 @@ class Profile:
         self.is_push_notifications_public_subscription_enabled = input['isPushNotificationsPublicSubscriptionEnabled']
         self.is_push_notifications_friend_created_post_enabled = input['isPushNotificationsFriendCreatedPostEnabled']
         self.is_push_notifications_user_tagged_enabled = input['isPushNotificationsUserTaggedEnabled']
-        self.is_push_notifications_messages_enabled = input['isPushNotificationsMessagesEnabled']
+        self.is_push_notifications_messages_enabled = input['isPushNotificationsMessageEnabled']
         self.phone_prefix = input['phonePrefix'] # Region code without + (e.g 49)
         self.phone_suffix = input['phoneNumber'] # Default number -> 123456
         self.phone_number = self.phone_prefix + self.phone_suffix

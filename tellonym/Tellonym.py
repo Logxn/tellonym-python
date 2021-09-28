@@ -62,8 +62,6 @@ class Tellonym:
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
 
         response = r.json()
-        print(response)
-
 
         if 'err' in response:
             if response['err']['code'] == 'WRONG_CREDENTIALS':

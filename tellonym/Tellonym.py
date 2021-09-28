@@ -65,10 +65,10 @@ class Tellonym:
 
         if 'err' in response:
             if response['err']['code'] == 'WRONG_CREDENTIALS':
-                raise WrongCredentialsError
+                raise SystemExit(WrongCredentialsError)
         elif 'code' in response:
             if response['code'] == 'CAPTCHA_REQUIRED':
-                raise CaptchaRequiredError
+                raise SystemExit(CaptchaRequiredError)
 
         req_token = response['accessToken']
         self.req_token = req_token

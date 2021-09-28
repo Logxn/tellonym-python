@@ -5,7 +5,6 @@ from tellonym.exceptions import *
 class Answer:
 
     def __init__(self, client, input):
-        print(input)
         self.__client = client
         self.type = input['type']
         self.id = input['id']

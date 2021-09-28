@@ -5,3 +5,4 @@ UserNotFoundError = Exception('the user_id you have entered does not belong to a
 InvalidParameterError = \
     Exception('an invalid parameter was send to the api endpoint. please contact the author of this module')
 UnknownError = Exception('an unknown error has occured, please inform the author of this module')
+CaptchaRequiredError = Exception('we have encountered a captcha. please try again later')

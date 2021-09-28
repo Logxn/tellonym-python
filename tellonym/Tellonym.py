@@ -3,6 +3,8 @@ from tellonym.exceptions import *
 from tellonym.Profile import Profile
 from tellonym.Tell import Tell
 from tellonym.User import User
+#from 2captcha import 2Captcha
+#import solver = 2Captch('d7fdaa6bcb831dcf1ff777f230192aff')
 
 
 class Tellonym:
@@ -26,10 +28,11 @@ class Tellonym:
         self.create_answer_url = self.base_url + '/answers/create'
         self.delete_answer_url = self.base_url + '/answers/destroy'
         self.search_user_url = self.base_url + '/search/users'
-        self.non_auth_header = {'tellonym-client': 'ios:2.81.1:737:14:iPhone10,6'}
+        self.non_auth_header = {'tellonym-client': 'ios:2.81.6:764:15:iPhone10,6', 'User-Agent': 'Tellonym/764 CFNetwork/1312 Darwin/21.0.0'}
         self.auth = 'Bearer ' + self.__get_request_token(username, password)
         self.auth_header = {'Authorization': self.auth, 'user-agent': 'Tellonym/737 CFNetwork/1240.0.4 Darwin/20.6.0',
                             'tellonym-client': 'ios:2.81.1:737:14:iPhone10,6'}
+        self.captcha_key = '8623e8b4-d93c-40b4-9fb8-6ed629540b02'
 
     def __get_request_token(self, username, password):
         """
@@ -46,7 +49,7 @@ class Tellonym:
         body = {
             'country': 'DE',
             'deviceLanguage': 1,
-            'deviceName': 'tellonym-for-python',
+            'deviceName': 'tell4pyt',
             'deviceType': 'ios',
             'deviceUid': '4CC1876F-F43F-4902-8C08-9F8194FFFO293',
             'lang': 'de',
@@ -59,14 +62,23 @@ class Tellonym:
         r = requests.post(self.login_url, json=body, headers=self.non_auth_header)
 
         response = r.json()
+        print(response)
+
 
         if 'err' in response:
             if response['err']['code'] == 'WRONG_CREDENTIALS':
                 raise WrongCredentialsError
+        elif 'code' in response:
+            if response['code'] == 'CAPTCHA_REQUIRED':
+                raise CaptchaRequiredError
 
         req_token = response['accessToken']
         self.req_token = req_token
         return req_token
+
+    # coming-soonish
+    #def __solve_captcha(self):
+        #result = solver.hcaptcha(sitekey=self.captcha_key, url='tellonym.me', )
 
     def logout(self):
         """

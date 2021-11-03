@@ -8,7 +8,7 @@ class Answer:
         self.__client = client
         self.type = input['type']
         self.id = input['id']
-        self.answer = input['answer']
+        self.content = input['answer']
         self.likes_count = input['likesCount']
         self.created_at = input['createdAt']
         self.tell = input['tell']

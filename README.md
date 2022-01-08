@@ -4,7 +4,7 @@
 ![GitHub License](https://img.shields.io/github/license/logxn/tellonym-python.svg)
 
 # ⚠️ Warning: This could get you banned
-On 1/7/2022 I was banned from using Tellonym.<br>
+On 1/6/2022 I was banned from using Tellonym.<br>
 ![Ban Message](https://i.imgur.com/SaHwaZZ.png)<br>
 German Text: "You have been blocked from using our services"<br>
 
